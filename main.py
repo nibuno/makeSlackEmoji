@@ -4,22 +4,18 @@ from PIL import Image, ImageDraw, ImageFont
 
 def main():
     file_name = "file" + ".png"
-    im = Image.new("RGB", (256, 256), "#fff")
-    draw = ImageDraw.Draw(im)
-    font = None
-
-    text = "Yumihiki\nKICK BACKScrapbox"
-
-    font_path = "/Users/tatsuya/Library/Fonts/rounded-mplus-1c-black.ttf"
-
+    font_color = "#fff"
     base_size = 256
+    image = Image.new("RGB", (base_size, base_size), font_color)
+    image_draw = ImageDraw.Draw(image)
+    font = None
+    text = "Sample Text"
+    font_path = "/Users/tatsuya/Library/Fonts/rounded-mplus-1c-black.ttf"
     split_size = base_size / len(text.splitlines())
-
     count = 1
     for text in text.splitlines():
         size = None
         font_size = 100
-
         while (size is None
                or size[0] > base_size
                or size[1] > base_size) \
@@ -29,7 +25,7 @@ def main():
             print(size)
             font_size -= 1
             print(font_size)
-        draw.multiline_text(
+        image_draw.multiline_text(
             xy=(0, (split_size / 2) * count),
             text=text,
             fill="#000",
@@ -38,7 +34,7 @@ def main():
             align="center",
         )
         count += 2
-    im.save(file_name)
+    image.save(file_name)
 
 
 if __name__ == '__main__':
