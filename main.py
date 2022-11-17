@@ -9,7 +9,7 @@ def main():
     image = Image.new("RGB", (base_size, base_size), font_color)
     image_draw = ImageDraw.Draw(image)
     font = None
-    text = "Sample Text"
+    text = "Hello\nWorld"
     font_path = "/Users/tatsuya/Library/Fonts/rounded-mplus-1c-black.ttf"
     split_size = base_size / len(text.splitlines())
     count = 1
@@ -22,9 +22,7 @@ def main():
                 and font_size > 0:
             font = ImageFont.truetype(font_path, font_size)
             size = font.getsize_multiline(text)
-            print(size)
             font_size -= 1
-            print(font_size)
         image_draw.multiline_text(
             xy=(0, (split_size / 2) * count),
             text=text,
