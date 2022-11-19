@@ -14,7 +14,7 @@ def main():
     image_draw = ImageDraw.Draw(im=image)
     font = None
     text = "Hello\nWorld"
-    font_path = "/Users/tatsuya/Library/Fonts/rounded-mplus-1c-black.ttf"
+    font_path = "rounded-mplus-20150529/rounded-mplus-1c-black.ttf"
     split_size = base_size / len(text.splitlines())
     count = 1
     for text in text.splitlines():
