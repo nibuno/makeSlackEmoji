@@ -17,11 +17,11 @@ def main():
         size = None
         font_size = 100
         while (size is None
-               or size[0] > base_size
-               or size[1] > base_size) \
+               or size[2] > base_size
+               or size[3] > base_size) \
                 and font_size > 0:
             font = ImageFont.truetype(font_path, font_size)
-            size = font.getsize_multiline(text)
+            size = font.getbbox(text)
             font_size -= 1
         image_draw.multiline_text(
             xy=(0, (split_size / 2) * count),
