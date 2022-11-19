@@ -28,7 +28,7 @@ def main():
             )
             size = font.getbbox(text=text)
             font_size -= 1
-        image_draw.multiline_text(
+        image_draw.text(
             xy=(0, (split_size / 2) * count),
             text=text,
             fill="#000",
