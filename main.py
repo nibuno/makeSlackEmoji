@@ -2,8 +2,7 @@
 from PIL import Image, ImageDraw, ImageFont
 
 
-def main():
-    text = "Hello\nWorld"
+def main(text, font_color="#000000"):
     file_stem = "_".join(text.splitlines())
     file_suffix = ".png"
     file_name = file_stem + file_suffix
@@ -36,7 +35,7 @@ def main():
         image_draw.text(
             xy=(center, (split_size / 2) * count),
             text=text,
-            fill="#000",
+            fill=font_color,
             font=image_font,
             anchor="mm",
         )
