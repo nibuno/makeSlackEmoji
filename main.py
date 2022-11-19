@@ -21,16 +21,20 @@ def main(text, font_color="#000000"):
         base_size / len(text.splitlines())
     )
     count = 1
+    right = 2
+    bottom = 3
     for text in text.splitlines():
-        size = None
+        bounding_box = None
         font_size = split_size
-        while (size is None) or (size[2] > base_size) or (size[3] > base_size) \
+        while (bounding_box is None) or \
+                (bounding_box[right] > base_size) or \
+                (bounding_box[bottom] > base_size) \
                 and (font_size > 0):
             image_font = ImageFont.truetype(
                 font=font_path,
                 size=font_size
             )
-            size = image_font.getbbox(text=text)
+            bounding_box = image_font.getbbox(text=text)
             font_size -= 1
         image_draw.text(
             xy=(center, (split_size / 2) * count),
