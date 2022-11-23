@@ -60,7 +60,7 @@ def auto_font_size_change(texts, font_color="#000000"):
     count = 1
     right = 2
     bottom = 3
-    bounding_boxs = []
+    bounding_bottoms = []
     for text in texts.splitlines():
         bounding_box = None
         font_size = base_size
@@ -74,11 +74,11 @@ def auto_font_size_change(texts, font_color="#000000"):
             )
             bounding_box = image_font.getbbox(text=text)
             font_size -= 1
-        bounding_boxs.append(bounding_box[3])
+        bounding_bottoms.append(bounding_box[bottom])
         count += 2
     image = Image.new(
         mode="RGBA",
-        size=(base_size, sum(bounding_boxs)),
+        size=(base_size, sum(bounding_bottoms)),
         color=background_color
     )
     image_draw = ImageDraw.Draw(im=image)
@@ -98,20 +98,7 @@ def auto_font_size_change(texts, font_color="#000000"):
             bounding_box = image_font.getbbox(text=text)
             font_size -= 1
 
-            # TODO: メソッドへの切り出し
-            # 1個の時は0が1個
-            # 2個の時は0が2個, 1が1個
-            # 3個の時は0が2個, 1が2個, 2が1個
-            # 4個の時は0が2個, 1が2個, 2が2個, 3が1個
-            if i == 1:
-                y = (bounding_boxs[0]) / 2
-            elif i == 2:
-                y = (bounding_boxs[0] + bounding_boxs[0] +
-                     bounding_boxs[1]) / 2
-            elif i == 3:
-                y = (bounding_boxs[0] + bounding_boxs[0] +
-                     bounding_boxs[1] + bounding_boxs[1] +
-                     bounding_boxs[2]) / 2
+            y = calc_y_axis(bounding_bottoms, i, y)
         image_draw.text(
             xy=(center, y),
             text=text,
@@ -123,6 +110,24 @@ def auto_font_size_change(texts, font_color="#000000"):
     resize_base = 128
     image = image.resize((resize_base, resize_base))
     image.save(fp=file_name)
+
+
+def calc_y_axis(bounding_boxs, i, y):
+    # TODO: メソッドへの切り出し
+    # 1個の時は0が1個
+    # 2個の時は0が2個, 1が1個
+    # 3個の時は0が2個, 1が2個, 2が1個
+    # 4個の時は0が2個, 1が2個, 2が2個, 3が1個
+    if i == 1:
+        y = (bounding_boxs[0]) / 2
+    elif i == 2:
+        y = (bounding_boxs[0] + bounding_boxs[0] +
+             bounding_boxs[1]) / 2
+    elif i == 3:
+        y = (bounding_boxs[0] + bounding_boxs[0] +
+             bounding_boxs[1] + bounding_boxs[1] +
+             bounding_boxs[2]) / 2
+    return y
 
 
 if __name__ == '__main__':
