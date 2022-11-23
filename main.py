@@ -24,18 +24,15 @@ def main(text, font_color="#000000"):
     right = 2
     bottom = 3
     for text in text.splitlines():
-        bounding_box = None
-        font_size = split_size
-        while (bounding_box is None) or \
-                (bounding_box[right] > base_size) or \
-                (bounding_box[bottom] > base_size) \
-                and (font_size > 0):
-            image_font = ImageFont.truetype(
-                font=font_path,
-                size=font_size
-            )
-            bounding_box = image_font.getbbox(text=text)
-            font_size -= 1
+        image_font = calc_font_size(
+            base_size,
+            bottom,
+            font_path,
+            image_font,
+            right,
+            split_size,
+            text
+        )[0]
         image_draw.text(
             xy=(center, (split_size / 2) * count),
             text=text,
@@ -45,6 +42,28 @@ def main(text, font_color="#000000"):
         )
         count += 2
     image.save(fp=file_name)
+
+
+def calc_font_size(
+        base_size,
+        bottom,
+        font_path,
+        image_font,
+        right,
+        font_size,
+        text):
+    bounding_box = None
+    while (bounding_box is None) or \
+            (bounding_box[right] > base_size) or \
+            (bounding_box[bottom] > base_size) \
+            and (font_size > 0):
+        image_font = ImageFont.truetype(
+            font=font_path,
+            size=font_size
+        )
+        bounding_box = image_font.getbbox(text=text)
+        font_size -= 1
+    return image_font, bounding_box
 
 
 # todo: 重複ロジックの切り出し
@@ -57,25 +76,20 @@ def auto_font_size_change(texts, font_color="#000000"):
     center = base_size / 2
     image_font = None
     font_path = "rounded-mplus-20150529/rounded-mplus-1c-black.ttf"
-    count = 1
     right = 2
     bottom = 3
     bounding_bottoms = []
     for text in texts.splitlines():
-        bounding_box = None
-        font_size = base_size
-        while (bounding_box is None) or \
-                (bounding_box[right] > base_size) or \
-                (bounding_box[bottom] > base_size) \
-                and (font_size > 0):
-            image_font = ImageFont.truetype(
-                font=font_path,
-                size=font_size
-            )
-            bounding_box = image_font.getbbox(text=text)
-            font_size -= 1
+        image_font, bounding_box = calc_font_size(
+            base_size,
+            bottom,
+            font_path,
+            image_font,
+            right,
+            base_size,
+            text
+        )
         bounding_bottoms.append(bounding_box[bottom])
-        count += 2
     image = Image.new(
         mode="RGBA",
         size=(base_size, sum(bounding_bottoms)),
@@ -84,21 +98,17 @@ def auto_font_size_change(texts, font_color="#000000"):
     image_draw = ImageDraw.Draw(im=image)
     y = None
     for i, text in enumerate(texts.splitlines(), start=1):
-        bounding_box = None
-        font_size = base_size
-        while (bounding_box is None) or \
-                (bounding_box[right] > base_size) or \
-                (bounding_box[bottom] > base_size) \
-                and (font_size > 0):
-            image_font = ImageFont.truetype(
-                font=font_path,
-                size=font_size
-            )
-            bounding_box = image_font.getbbox(text=text)
-            font_size -= 1
-            y = calc_y_axis(bounding_bottoms, i, y)
+        image_font, bounding_box = calc_font_size(
+            base_size,
+            bottom,
+            font_path,
+            image_font,
+            right,
+            base_size,
+            text
+        )
         image_draw.text(
-            xy=(center, y),
+            xy=(center, calc_y_axis(bounding_bottoms, i, y)),
             text=text,
             fill=font_color,
             font=image_font,
