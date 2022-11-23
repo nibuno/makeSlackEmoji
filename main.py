@@ -38,6 +38,7 @@ class MakeSlackEmoji:
         image.save(fp=self.file_name)
 
     def auto_font_size_change(self, font_color="#000000"):
+        resize = self.base_size
         self.base_size = 128 * 2
         bounding_bottoms = []
         for text in self.text.splitlines():
@@ -64,7 +65,7 @@ class MakeSlackEmoji:
                 font=image_font,
                 anchor="mm",
             )
-        image = image.resize((self.base_size, self.base_size))
+        image = image.resize((resize, resize))
         image.save(fp=self.file_name)
 
 
@@ -85,22 +86,19 @@ class MakeSlackEmoji:
             font_size -= 1
         return image_font, bounding_box
 
-
     def _calc_y_axis(self, bounding_boxs, count):
-        # TODO: メソッドへの切り出し
-        # 1個の時は0が1個
-        # 2個の時は0が2個, 1が1個
-        # 3個の時は0が2個, 1が2個, 2が1個
-        # 4個の時は0が2個, 1が2個, 2が2個, 3が1個
-        if count == 1:
-            return (bounding_boxs[0]) / 2
-        elif count == 2:
-            return (bounding_boxs[0] + bounding_boxs[0] +
-                    bounding_boxs[1]) / 2
-        elif count == 3:
-            return (bounding_boxs[0] + bounding_boxs[0] +
-                    bounding_boxs[1] + bounding_boxs[1] +
-                    bounding_boxs[2]) / 2
+        # count: 1 bounding_boxs[0] / 2
+        # count: 2 bounding_boxs[0] + (bounding_boxs[1] / 2)
+        # countL 3 bounding_boxs[0] + bounding_boxs[1] + (bounding_boxs[2] / 2)
+        results = []
+        for i in range(count):
+            if count == 1:
+                return int(bounding_boxs[i] / 2)
+            if i == count - 1:
+                results.append(bounding_boxs[i] / 2)
+            else:
+                results.append(bounding_boxs[i])
+        return int(sum(results))
 
     def _get_split_size(self):
         return int(
