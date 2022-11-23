@@ -92,8 +92,6 @@ class MakeSlackEmoji:
         # countL 3 bounding_boxs[0] + bounding_boxs[1] + (bounding_boxs[2] / 2)
         results = []
         for i in range(count):
-            if count == 1:
-                return int(bounding_boxs[i] / 2)
             if i == count - 1:
                 results.append(bounding_boxs[i] / 2)
             else:
@@ -122,7 +120,6 @@ if __name__ == '__main__':
         "Scrap\nBox"
     ]
     for input_text in input_texts:
-        # main(input_text)
         make_slack_emoji = MakeSlackEmoji(input_text)
-        make_slack_emoji.main()
+        # make_slack_emoji.main()
         make_slack_emoji.auto_font_size_change()
