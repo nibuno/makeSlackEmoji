@@ -82,7 +82,6 @@ def auto_font_size_change(texts, font_color="#000000"):
         color=background_color
     )
     image_draw = ImageDraw.Draw(im=image)
-    count = 1
     y = None
     for i, text in enumerate(texts.splitlines(), start=1):
         bounding_box = None
@@ -97,7 +96,6 @@ def auto_font_size_change(texts, font_color="#000000"):
             )
             bounding_box = image_font.getbbox(text=text)
             font_size -= 1
-
             y = calc_y_axis(bounding_bottoms, i, y)
         image_draw.text(
             xy=(center, y),
@@ -106,7 +104,6 @@ def auto_font_size_change(texts, font_color="#000000"):
             font=image_font,
             anchor="mm",
         )
-        count += 2
     resize_base = 128
     image = image.resize((resize_base, resize_base))
     image.save(fp=file_name)
@@ -143,4 +140,5 @@ if __name__ == '__main__':
         "Scrap\nBox"
     ]
     for input_text in input_texts:
-        auto_font_size_change(input_text)
+        main(input_text)
+        # auto_font_size_change(input_text)
