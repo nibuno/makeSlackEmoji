@@ -11,6 +11,8 @@ class MakeSlackEmoji:
         self.background_color = (0, 0, 0, 0)
         self.font_path = "rounded-mplus-20150529/rounded-mplus-1c-black.ttf"
         self.base_size = 128
+        self.bounding_right_num = 2
+        self.bounding_bottom_num = 3
 
     def main(self, font_color="#000000"):
         image = Image.new(
@@ -20,14 +22,9 @@ class MakeSlackEmoji:
         )
         image_draw = ImageDraw.Draw(im=image)
         count = 1
-        right = 2
-        bottom = 3
         for text in self.text.splitlines():
             image_font = self._calc_font_size(
-                self.base_size,
                 self._get_split_size(),
-                right,
-                bottom,
                 text
             )[0]
             image_draw.text(
@@ -42,18 +39,13 @@ class MakeSlackEmoji:
 
     def auto_font_size_change(self, font_color="#000000"):
         self.base_size = 128 * 2
-        right = 2
-        bottom = 3
         bounding_bottoms = []
         for text in self.text.splitlines():
             bounding_box = self._calc_font_size(
                 self.base_size,
-                self.base_size,
-                right,
-                bottom,
                 text
             )[1]
-            bounding_bottoms.append(bounding_box[bottom])
+            bounding_bottoms.append(bounding_box[self.bounding_bottom_num])
         image = Image.new(
             mode="RGBA",
             size=(self.base_size, sum(bounding_bottoms)),
@@ -63,9 +55,6 @@ class MakeSlackEmoji:
         for i, text in enumerate(self.text.splitlines(), start=1):
             image_font = self._calc_font_size(
                 self.base_size,
-                self.base_size,
-                right,
-                bottom,
                 text
             )[0]
             image_draw.text(
@@ -81,15 +70,12 @@ class MakeSlackEmoji:
 
     def _calc_font_size(
             self,
-            base_size,
             font_size,
-            right,
-            bottom,
             text):
         bounding_box = None
         while (bounding_box is None) or \
-                (bounding_box[right] > base_size) or \
-                (bounding_box[bottom] > base_size) \
+                (bounding_box[self.bounding_right_num] > self.base_size) or \
+                (bounding_box[self.bounding_bottom_num] > self.base_size) \
                 and (font_size > 0):
             image_font = ImageFont.truetype(
                 font=self.font_path,
