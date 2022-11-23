@@ -10,32 +10,28 @@ class MakeSlackEmoji:
         self.file_name = self.file_stem + self.file_suffix
         self.background_color = (0, 0, 0, 0)
         self.font_path = "rounded-mplus-20150529/rounded-mplus-1c-black.ttf"
+        self.base_size = 128
 
     def main(self, font_color="#000000"):
-        base_size = 128
-        center = base_size / 2
         image = Image.new(
             mode="RGBA",
-            size=(base_size, base_size),
+            size=(self.base_size, self.base_size),
             color=self.background_color
         )
         image_draw = ImageDraw.Draw(im=image)
-        split_size = int(
-            base_size / len(self.text.splitlines())
-        )
         count = 1
         right = 2
         bottom = 3
         for text in self.text.splitlines():
             image_font = self._calc_font_size(
-                base_size,
-                bottom,
+                self.base_size,
+                self._get_split_size(),
                 right,
-                split_size,
+                bottom,
                 text
             )[0]
             image_draw.text(
-                xy=(center, (split_size / 2) * count),
+                xy=(self._get_center(), (self._get_split_size() / 2) * count),
                 text=text,
                 fill=font_color,
                 font=image_font,
@@ -44,54 +40,51 @@ class MakeSlackEmoji:
             count += 2
         image.save(fp=self.file_name)
 
-    # todo: 重複ロジックの切り出し
     def auto_font_size_change(self, font_color="#000000"):
-        base_size = 128 * 2
-        center = base_size / 2
+        self.base_size = 128 * 2
         right = 2
         bottom = 3
         bounding_bottoms = []
         for text in self.text.splitlines():
             bounding_box = self._calc_font_size(
-                base_size,
-                bottom,
+                self.base_size,
+                self.base_size,
                 right,
-                base_size,
+                bottom,
                 text
             )[1]
             bounding_bottoms.append(bounding_box[bottom])
         image = Image.new(
             mode="RGBA",
-            size=(base_size, sum(bounding_bottoms)),
+            size=(self.base_size, sum(bounding_bottoms)),
             color=self.background_color
         )
         image_draw = ImageDraw.Draw(im=image)
         for i, text in enumerate(self.text.splitlines(), start=1):
             image_font = self._calc_font_size(
-                base_size,
-                bottom,
+                self.base_size,
+                self.base_size,
                 right,
-                base_size,
+                bottom,
                 text
             )[0]
             image_draw.text(
-                xy=(center, self._calc_y_axis(bounding_bottoms, i)),
+                xy=(self._get_center(), self._calc_y_axis(bounding_bottoms, i)),
                 text=text,
                 fill=font_color,
                 font=image_font,
                 anchor="mm",
             )
-        resize_base = 128
-        image = image.resize((resize_base, resize_base))
+        image = image.resize((self.base_size, self.base_size))
         image.save(fp=self.file_name)
 
 
     def _calc_font_size(
             self,
             base_size,
-            bottom,
-            right,
             font_size,
+            right,
+            bottom,
             text):
         bounding_box = None
         while (bounding_box is None) or \
@@ -122,6 +115,14 @@ class MakeSlackEmoji:
             return (bounding_boxs[0] + bounding_boxs[0] +
                     bounding_boxs[1] + bounding_boxs[1] +
                     bounding_boxs[2]) / 2
+
+    def _get_split_size(self):
+        return int(
+            self.base_size / len(self.text.splitlines())
+        )
+
+    def _get_center(self):
+        return self.base_size / 2
 
 
 if __name__ == '__main__':
