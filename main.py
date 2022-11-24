@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from PIL import Image, ImageDraw, ImageFont
+from calc_y_axis import calc_y_axis
 
 
 class MakeSlackEmoji:
@@ -59,7 +60,7 @@ class MakeSlackEmoji:
                 text
             )[0]
             image_draw.text(
-                xy=(self._get_center(), self._calc_y_axis(bounding_bottoms, i)),
+                xy=(self._get_center(), calc_y_axis(bounding_bottoms, i)),
                 text=text,
                 fill=font_color,
                 font=image_font,
@@ -86,17 +87,7 @@ class MakeSlackEmoji:
             font_size -= 1
         return image_font, bounding_box
 
-    def _calc_y_axis(self, bounding_boxs, count):
-        # count: 1 bounding_boxs[0] / 2
-        # count: 2 bounding_boxs[0] + (bounding_boxs[1] / 2)
-        # countL 3 bounding_boxs[0] + bounding_boxs[1] + (bounding_boxs[2] / 2)
-        results = []
-        for i in range(count):
-            if i == count - 1:
-                results.append(bounding_boxs[i] / 2)
-            else:
-                results.append(bounding_boxs[i])
-        return int(sum(results))
+
 
     def _get_split_size(self):
         return int(
