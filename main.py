@@ -15,6 +15,13 @@ class MakeSlackEmoji:
         self.bounding_right_num = 2
         self.bounding_bottom_num = 3
 
+    def judgment(self, auto_font_size_mode):
+        # todo: 判定ロジックを修正したい
+        if auto_font_size_mode:
+            self.auto_font_size_change()
+        else:
+            self.main()
+
     def main(self, font_color="#000000"):
         image = Image.new(
             mode="RGBA",
@@ -74,6 +81,7 @@ class MakeSlackEmoji:
             self,
             font_size,
             text):
+        image_font = None
         bounding_box = None
         while (bounding_box is None) or \
                 (bounding_box[self.bounding_right_num] > self.base_size) or \
@@ -86,8 +94,6 @@ class MakeSlackEmoji:
             bounding_box = image_font.getbbox(text=text)
             font_size -= 1
         return image_font, bounding_box
-
-
 
     def _get_split_size(self):
         return int(
@@ -110,7 +116,7 @@ if __name__ == '__main__':
         "ゆみひき",
         "Scrap\nBox"
     ]
+    auto_font_size = False
     for input_text in input_texts:
         make_slack_emoji = MakeSlackEmoji(input_text)
-        # make_slack_emoji.main()
-        make_slack_emoji.auto_font_size_change()
+        make_slack_emoji.judgment(auto_font_size)
