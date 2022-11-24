@@ -13,6 +13,6 @@ test_datas = [
 ]
 
 
-@pytest.mark.parametrize("bounding_boxs, count, results", test_datas)
-def test_calc_y_axis(bounding_boxs, count, results):
-    assert calc_y_axis(bounding_boxs, count) == results
+@pytest.mark.parametrize("bounding_bottoms, count, results", test_datas)
+def test_calc_y_axis(bounding_bottoms, count, results):
+    assert calc_y_axis(bounding_bottoms, count) == results

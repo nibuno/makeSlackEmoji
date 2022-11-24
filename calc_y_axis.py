@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-def calc_y_axis(bounding_bottoms: list, count: int) -> int:
+def calc_y_axis(bounding_bottoms: list[int, ...], count: int) -> int:
     """Y軸の描画位置を取得する
 
     境界ボックスの位置を利用して各出力位置の中心を取得する
@@ -14,7 +14,7 @@ def calc_y_axis(bounding_bottoms: list, count: int) -> int:
     :param count: カウント
     :return: 描画位置
     """
-    results: list = []
+    results: list[float, ...] = []
     for i in range(count):
         if i == count - 1:
             results.append(bounding_bottoms[i] / 2)
