@@ -8,11 +8,6 @@ class TestMakeSlackEmoji:
         assert make_slack_emoji._calc_font_size(100, "弓")[1] \
                == (0, 23, 84, 100)
 
-        make_slack_emoji = MakeSlackEmoji("hello")
-        make_slack_emoji.base_size = 100
-        assert make_slack_emoji._calc_font_size(100, "hello")[1] \
-               == (0, 12, 99, 43)
-
         make_slack_emoji = MakeSlackEmoji("Yumihiki")
         make_slack_emoji.base_size = 100
         assert make_slack_emoji._calc_font_size(100, "Yumihiki")[1] \
