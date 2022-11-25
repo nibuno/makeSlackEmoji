@@ -9,6 +9,7 @@ class MakeSlackEmoji:
         self.file_stem = "_".join(self.text.splitlines())
         self.file_suffix = ".png"
         self.file_name = self.file_stem + self.file_suffix
+        self.save_file_path = "save/" + self.file_name
         self.background_color = (0, 0, 0, 0)
         self.font_path = "rounded-mplus-20150529/rounded-mplus-1c-black.ttf"
         self.base_size = 128
@@ -43,7 +44,7 @@ class MakeSlackEmoji:
                 anchor="mm",
             )
             count += 2
-        image.save(fp=self.file_name)
+        image.save(fp=self.save_file_path)
 
     def auto_font_size_change(self, font_color="#000000"):
         resize = self.base_size
@@ -74,7 +75,7 @@ class MakeSlackEmoji:
                 anchor="mm",
             )
         image = image.resize((resize, resize))
-        image.save(fp=self.file_name)
+        image.save(fp=self.save_file_path)
 
 
     def _calc_font_size(
