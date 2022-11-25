@@ -77,7 +77,6 @@ class MakeSlackEmoji:
         image = image.resize((resize, resize))
         image.save(fp=self.save_file_path)
 
-
     def _calc_font_size(
             self,
             font_size,
