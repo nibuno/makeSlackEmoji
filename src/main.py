@@ -6,7 +6,7 @@ from calc_y_axis import calc_y_axis
 
 
 class MakeSlackEmoji:
-    def __init__(self, text):
+    def __init__(self, text: str):
         self.text: str = text
         self.file_stem: str = "_".join(self.text.splitlines())
         self.file_suffix: str = ".png"
