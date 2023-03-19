@@ -30,9 +30,7 @@ class EmojiUseCase:
         return self.emoji.base_size
 
     def get_split_size(self) -> int:
-        return int(
-            self.emoji.base_size / len(self.emoji.text.splitlines())
-        )
+        return int(self.emoji.base_size / len(self.emoji.text.splitlines()))
 
     def get_center(self) -> float:
         return self.emoji.base_size / 2

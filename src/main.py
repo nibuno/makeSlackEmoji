@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 from src.entity.emoji import Emoji
-from src.infrastructure.generator import AutoFontSizeChangeGeneratorImpl, \
-    StandardGeneratorImpl
+from src.infrastructure.generator import (
+    AutoFontSizeChangeGeneratorImpl,
+    StandardGeneratorImpl,
+)
 from src.use_case.emoji_use_case import EmojiUseCase
 
 
@@ -15,5 +17,5 @@ def main(input_text: str, auto_font_size: bool):
     generator.generate()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main("hello world", False)
