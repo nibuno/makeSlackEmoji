@@ -1,7 +1,7 @@
 from src.entity.emoji import Emoji
-from src.find_best_font_and_box import find_best_font_and_box
-from src.generator import StandardGeneratorImpl
+from src.infrastructure.generator import StandardGeneratorImpl, find_best_font_and_box, calc_y_axis
 from src.use_case.emoji_use_case import EmojiUseCase
+import pytest
 
 
 class TestStandardGeneratorImpl:
@@ -16,3 +16,18 @@ class TestStandardGeneratorImpl:
             generator.emoji_use_case.get_font(),
             generator.emoji_use_case.get_base_size()
         )[1] == (0, 23, 84, 100)
+
+
+@pytest.mark.parametrize(
+    "bounding_bottoms, count, results",
+    [
+        ([256], 1, 128),  # 1行のケース
+        ([109, 94], 1, 54),  # 2行のケース 1行目
+        ([109, 94], 2, 156),  # 2行のケース 2行目
+        ([98, 145, 146], 1, 49),  # 3行のケース 1行目
+        ([98, 145, 146], 2, 170),  # 3行のケース 2行目
+        ([98, 145, 146], 3, 316),  # 3行のケース 3行目
+    ]
+)
+def test_calc_y_axis(bounding_bottoms, count, results):
+    assert calc_y_axis(bounding_bottoms, count) == results
