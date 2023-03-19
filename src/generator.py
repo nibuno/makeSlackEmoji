@@ -5,7 +5,8 @@ from src.calc_y_axis import calc_y_axis
 from src.entity.emoji import Emoji
 from src.interface.image_generator import ImageGenerator
 from src.use_case.emoji_use_case import EmojiUseCase
-from typing import Tuple, Optional, List
+from src.find_best_font_and_box import find_best_font_and_box
+from typing import Tuple, List
 
 
 class StandardGeneratorImpl(ImageGenerator):
@@ -22,7 +23,7 @@ class StandardGeneratorImpl(ImageGenerator):
         image_draw: ImageDraw = ImageDraw.Draw(im=image)
         count: int = 1
         for text in self.emoji.text.splitlines():
-            image_font: ImageFont = self._calc_font_size(
+            image_font: ImageFont = find_best_font_and_box(
                 self.emoji_use_case.get_split_size(),
                 text,
                 self.emoji.font,
@@ -41,21 +42,6 @@ class StandardGeneratorImpl(ImageGenerator):
             count += 2
         image.save(fp=self.emoji_use_case.get_save_file_path())
 
-    def _calc_font_size(self, font_size: int, text: str, font: str, base_size: int):
-        image_font: Optional[ImageFont] = None
-        bounding_box: Optional[Tuple[int, int, int, int]] = None
-        while (bounding_box is None) or \
-                (bounding_box[BoundingBox.RIGHT.value] > base_size) or \
-                (bounding_box[BoundingBox.BOTTOM.value] > base_size) \
-                and (font_size > 0):
-            image_font = ImageFont.truetype(
-                font=font,
-                size=font_size
-            )
-            bounding_box = image_font.getbbox(text=text)
-            font_size -= 1
-        return image_font, bounding_box
-
 
 class AutoFontSizeChangeGeneratorImpl(ImageGenerator):
     def __init__(self, text: str):
@@ -67,7 +53,7 @@ class AutoFontSizeChangeGeneratorImpl(ImageGenerator):
         self.emoji.base_size = 128 * 2
         bounding_bottoms: List = []
         for text in self.emoji.text.splitlines():
-            bounding_box = self._calc_font_size(
+            bounding_box = find_best_font_and_box(
                 self.emoji_use_case.get_split_size(),
                 text,
                 self.emoji.font,
@@ -81,14 +67,15 @@ class AutoFontSizeChangeGeneratorImpl(ImageGenerator):
         )
         image_draw: ImageDraw = ImageDraw.Draw(im=image)
         for i, text in enumerate(self.emoji.text.splitlines(), start=1):
-            image_font: Tuple[int, int, int, int] = self._calc_font_size(
+            image_font: Tuple[int, int, int, int] = find_best_font_and_box(
                 self.emoji_use_case.get_split_size(),
                 text,
                 self.emoji.font,
                 self.emoji.base_size
             )[0]
             image_draw.text(
-                xy=(self.emoji_use_case.get_center(), calc_y_axis(bounding_bottoms, i)),
+                xy=(self.emoji_use_case.get_center(),
+                    calc_y_axis(bounding_bottoms, i)),
                 text=text,
                 fill=self.emoji.font_color,
                 font=image_font,
@@ -96,18 +83,3 @@ class AutoFontSizeChangeGeneratorImpl(ImageGenerator):
             )
         image: Image = image.resize((resize, resize))
         image.save(fp=self.emoji_use_case.get_save_file_path())
-
-    def _calc_font_size(self, font_size: int, text: str, font: str, base_size: int):
-        image_font: Optional[ImageFont] = None
-        bounding_box: Optional[Tuple[int, int, int, int]] = None
-        while (bounding_box is None) or \
-                (bounding_box[BoundingBox.RIGHT.value] > base_size) or \
-                (bounding_box[BoundingBox.BOTTOM.value] > base_size) \
-                and (font_size > 0):
-            image_font = ImageFont.truetype(
-                font=font,
-                size=font_size
-            )
-            bounding_box = image_font.getbbox(text=text)
-            font_size -= 1
-        return image_font, bounding_box

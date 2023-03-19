@@ -5,7 +5,7 @@ class TestStandardGeneratorImpl:
     def test__calc_font_size(self):
         generator = StandardGeneratorImpl("弓")
         generator.emoji.base_size = 100
-        assert generator._calc_font_size(
+        assert _calc_font_size(
             generator.emoji_use_case.get_split_size(),
             generator.emoji.text,
             generator.emoji.font,
