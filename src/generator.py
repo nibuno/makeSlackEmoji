@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from PIL import Image, ImageDraw, ImageFont
-from calc_y_axis import calc_y_axis
-from emoji import Emoji
+from src.calc_y_axis import calc_y_axis
+from src.emoji import Emoji
 from src.interface.image_generator import ImageGenerator
 from typing import Tuple, Optional, List
 

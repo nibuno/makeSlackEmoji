@@ -1,9 +1,13 @@
-from src.main import MakeSlackEmoji
+from src.generator import StandardGeneratorImpl
 
 
-class TestMakeSlackEmoji:
+class TestStandardGeneratorImpl:
     def test__calc_font_size(self):
-        make_slack_emoji = MakeSlackEmoji("弓")
-        make_slack_emoji.base_size = 100
-        assert make_slack_emoji._calc_font_size(100, "弓")[1] \
-               == (0, 23, 84, 100)
+        generator = StandardGeneratorImpl("弓")
+        generator.emoji.base_size = 100
+        assert generator._calc_font_size(
+            generator.emoji.get_split_size(),
+            generator.emoji.text,
+            generator.emoji.font,
+            generator.emoji.base_size
+        )[1] == (0, 23, 84, 100)
