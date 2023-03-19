@@ -5,7 +5,7 @@ from src.use_case.emoji_use_case import EmojiUseCase
 
 
 class TestStandardGeneratorImpl:
-    def test__calc_font_size(self):
+    def test_find_best_font_and_box(self):
         emoji = Emoji("弓")
         emoji_use_case = EmojiUseCase(emoji)
         generator = StandardGeneratorImpl(emoji_use_case)

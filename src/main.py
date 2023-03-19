@@ -8,9 +8,9 @@ def main(input_text: str, auto_font_size: bool):
     emoji = Emoji(input_text)
     emoji_use_case = EmojiUseCase(emoji)
     if auto_font_size:
-        generator = AutoFontSizeChangeGeneratorImpl(emoji, emoji_use_case)
+        generator = AutoFontSizeChangeGeneratorImpl(emoji_use_case)
     else:
-        generator = StandardGeneratorImpl(emoji, emoji_use_case)
+        generator = StandardGeneratorImpl(emoji_use_case)
     generator.generate()
 
 

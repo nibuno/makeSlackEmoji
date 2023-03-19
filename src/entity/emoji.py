@@ -17,7 +17,7 @@ class Emoji:
         self.file_extension: str = extension
 
         self.background_color: Tuple[int, int, int, int] = background_color
-        project_root = Path(__file__).resolve().parents[1]
-        self.font: str = str(project_root / font)
+        font_file_path = Path(__file__).resolve().parent.parent.joinpath(font)
+        self.font: str = str(font_file_path)
         self.font_color: str = font_color
         self.base_size: int = base_size
