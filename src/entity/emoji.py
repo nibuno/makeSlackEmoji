@@ -21,17 +21,3 @@ class Emoji:
         self.font: str = str(project_root / font)
         self.font_color: str = font_color
         self.base_size: int = base_size
-
-    def get_save_file_path(self) -> str:
-        file_stem: str = "_".join(self.text.splitlines())
-        file_name: str = file_stem + self.file_extension
-        save_file_path: str = "save/" + file_name
-        return save_file_path
-
-    def get_split_size(self) -> int:
-        return int(
-            self.base_size / len(self.text.splitlines())
-        )
-
-    def get_center(self) -> float:
-        return self.base_size / 2
