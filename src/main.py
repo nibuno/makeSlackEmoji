@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from src.generator import AutoFontSizeChangeGeneratorImpl, StandardGeneratorImpl
 from src.entity.emoji import Emoji
+from src.generator import AutoFontSizeChangeGeneratorImpl, StandardGeneratorImpl
 from src.use_case.emoji_use_case import EmojiUseCase
 
 
