@@ -8,11 +8,11 @@ class TestStandardGeneratorImpl:
     def test__calc_font_size(self):
         emoji = Emoji("弓")
         emoji_use_case = EmojiUseCase(emoji)
-        generator = StandardGeneratorImpl(emoji, emoji_use_case)
-        generator.emoji.base_size = 100
+        generator = StandardGeneratorImpl(emoji_use_case)
+        generator.emoji_use_case.set_base_size(100)
         assert find_best_font_and_box(
             generator.emoji_use_case.get_split_size(),
-            generator.emoji.text,
-            generator.emoji.font,
-            generator.emoji.base_size
+            generator.emoji_use_case.get_text(),
+            generator.emoji_use_case.get_font(),
+            generator.emoji_use_case.get_base_size()
         )[1] == (0, 23, 84, 100)
