@@ -112,7 +112,7 @@ def find_best_font_and_box(
         text: str,
         font: str,
         base_size: int
-):
+) -> tuple[ImageFont, tuple[int, int, int, int]]:
     image_font: Optional[ImageFont] = None
     bounding_box: Optional[tuple[int, int, int, int]] = None
     while (bounding_box is None) or \
