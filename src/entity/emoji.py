@@ -9,7 +9,7 @@ class Emoji:
             text: str,
             extension: str = ".png",
             background_color: Tuple[int, int, int, int] = (0, 0, 0, 0),
-            font: str = "fonts/rounded-mplus-20150529/rounded-mplus-1c-black.ttf",
+            font: str = "src/fonts/rounded-mplus-20150529/rounded-mplus-1c-black.ttf",
             font_color: str = "#000000",
             base_size: int = 128
     ):
