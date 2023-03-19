@@ -10,9 +10,9 @@ from typing import Tuple, List
 
 
 class StandardGeneratorImpl(ImageGenerator):
-    def __init__(self, text: str):
-        self.emoji: Emoji = Emoji(text)
-        self.emoji_use_case: EmojiUseCase = EmojiUseCase(self.emoji)
+    def __init__(self, emoji: Emoji, emoji_use_case: EmojiUseCase):
+        self.emoji: Emoji = emoji
+        self.emoji_use_case: EmojiUseCase = emoji_use_case
 
     def generate(self):
         image: Image = Image.new(
@@ -45,9 +45,9 @@ class StandardGeneratorImpl(ImageGenerator):
 
 
 class AutoFontSizeChangeGeneratorImpl(ImageGenerator):
-    def __init__(self, text: str):
-        self.emoji: Emoji = Emoji(text)
-        self.emoji_use_case: EmojiUseCase = EmojiUseCase(self.emoji)
+    def __init__(self, emoji: Emoji, emoji_use_case: EmojiUseCase):
+        self.emoji: Emoji = emoji
+        self.emoji_use_case: EmojiUseCase = emoji_use_case
 
     def generate(self):
         resize: int = self.emoji.base_size
