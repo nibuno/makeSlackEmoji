@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from pathlib import Path
 from typing import Tuple
+from pathlib import Path
 
 
 class Emoji:

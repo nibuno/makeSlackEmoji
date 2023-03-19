@@ -1,9 +1,6 @@
-# -*- coding: utf-8 -*-
-from typing import Tuple, Optional
-
 from PIL import ImageFont
-
 from src.entity.bounding_box import BoundingBox
+from typing import Tuple, Optional
 
 
 def find_best_font_and_box(
