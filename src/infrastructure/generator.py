@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from typing import List, Tuple, Optional
+from typing import Optional
 
 from PIL import Image, ImageDraw, ImageFont
 
@@ -50,7 +50,7 @@ class AutoFontSizeChangeGeneratorImpl(ImageGenerator):
     def generate(self):
         resize: int = self.emoji_use_case.get_base_size()
         self.emoji_use_case.set_base_size(128 * 2)
-        bounding_bottoms: List = []
+        bounding_bottoms: list = []
         for text in self.emoji_use_case.get_text().splitlines():
             bounding_box = find_best_font_and_box(
                 self.emoji_use_case.get_split_size(),
@@ -66,7 +66,7 @@ class AutoFontSizeChangeGeneratorImpl(ImageGenerator):
         )
         image_draw: ImageDraw = ImageDraw.Draw(im=image)
         for i, text in enumerate(self.emoji_use_case.get_text().splitlines(), start=1):
-            image_font: Tuple[int, int, int, int] = find_best_font_and_box(
+            image_font: tuple[int, int, int, int] = find_best_font_and_box(
                 self.emoji_use_case.get_split_size(),
                 text,
                 self.emoji_use_case.get_font(),
@@ -114,7 +114,7 @@ def find_best_font_and_box(
         base_size: int
 ):
     image_font: Optional[ImageFont] = None
-    bounding_box: Optional[Tuple[int, int, int, int]] = None
+    bounding_box: Optional[tuple[int, int, int, int]] = None
     while (bounding_box is None) or \
             (bounding_box[BoundingBox.RIGHT.value] > base_size) or \
             (bounding_box[BoundingBox.BOTTOM.value] > base_size) \
