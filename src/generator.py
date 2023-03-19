@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 from PIL import Image, ImageDraw, ImageFont
+from src.bounding_box import BoundingBox
 from src.calc_y_axis import calc_y_axis
 from src.entity.emoji import Emoji
-from src.use_case.emoji_use_case import EmojiUseCase
 from src.interface.image_generator import ImageGenerator
+from src.use_case.emoji_use_case import EmojiUseCase
 from typing import Tuple, Optional, List
 
 
@@ -11,8 +12,6 @@ class StandardGeneratorImpl(ImageGenerator):
     def __init__(self, text: str):
         self.emoji: Emoji = Emoji(text)
         self.emoji_use_case: EmojiUseCase = EmojiUseCase(self.emoji)
-        self.bounding_right_num: int = 2
-        self.bounding_bottom_num: int = 3
 
     def generate(self):
         image: Image = Image.new(
@@ -46,8 +45,8 @@ class StandardGeneratorImpl(ImageGenerator):
         image_font: Optional[ImageFont] = None
         bounding_box: Optional[Tuple[int, int, int, int]] = None
         while (bounding_box is None) or \
-                (bounding_box[self.bounding_right_num] > base_size) or \
-                (bounding_box[self.bounding_bottom_num] > base_size) \
+                (bounding_box[BoundingBox.RIGHT.value] > base_size) or \
+                (bounding_box[BoundingBox.BOTTOM.value] > base_size) \
                 and (font_size > 0):
             image_font = ImageFont.truetype(
                 font=font,
@@ -62,8 +61,6 @@ class AutoFontSizeChangeGeneratorImpl(ImageGenerator):
     def __init__(self, text: str):
         self.emoji: Emoji = Emoji(text)
         self.emoji_use_case: EmojiUseCase = EmojiUseCase(self.emoji)
-        self.bounding_right_num: int = 2
-        self.bounding_bottom_num: int = 3
 
     def generate(self):
         resize: int = self.emoji.base_size
@@ -76,7 +73,7 @@ class AutoFontSizeChangeGeneratorImpl(ImageGenerator):
                 self.emoji.font,
                 self.emoji.base_size
             )[1]
-            bounding_bottoms.append(bounding_box[self.bounding_bottom_num])
+            bounding_bottoms.append(bounding_box[BoundingBox.BOTTOM.value])
         image: Image = Image.new(
             mode="RGBA",
             size=(self.emoji.base_size, sum(bounding_bottoms)),
@@ -104,8 +101,8 @@ class AutoFontSizeChangeGeneratorImpl(ImageGenerator):
         image_font: Optional[ImageFont] = None
         bounding_box: Optional[Tuple[int, int, int, int]] = None
         while (bounding_box is None) or \
-                (bounding_box[self.bounding_right_num] > base_size) or \
-                (bounding_box[self.bounding_bottom_num] > base_size) \
+                (bounding_box[BoundingBox.RIGHT.value] > base_size) or \
+                (bounding_box[BoundingBox.BOTTOM.value] > base_size) \
                 and (font_size > 0):
             image_font = ImageFont.truetype(
                 font=font,
