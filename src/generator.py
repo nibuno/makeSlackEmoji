@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 from PIL import Image, ImageDraw, ImageFont
-from src.bounding_box import BoundingBox
 from src.calc_y_axis import calc_y_axis
+from src.entity.bounding_box import BoundingBox
 from src.entity.emoji import Emoji
+from src.find_best_font_and_box import find_best_font_and_box
 from src.interface.image_generator import ImageGenerator
 from src.use_case.emoji_use_case import EmojiUseCase
-from src.find_best_font_and_box import find_best_font_and_box
 from typing import Tuple, List
 
 
@@ -41,6 +41,7 @@ class StandardGeneratorImpl(ImageGenerator):
             )
             count += 2
         image.save(fp=self.emoji_use_case.get_save_file_path())
+
 
 
 class AutoFontSizeChangeGeneratorImpl(ImageGenerator):

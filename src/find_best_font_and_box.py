@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from PIL import ImageFont
-from src.bounding_box import BoundingBox
+from src.entity.bounding_box import BoundingBox
 from typing import Tuple, Optional
 
 
