@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 from typing import List, Tuple, Optional
 
-from PIL import Image, ImageDraw
-from PIL import ImageFont
+from PIL import Image, ImageDraw, ImageFont
 
 from src.entity.bounding_box import BoundingBox
 from src.interface.image_generator import ImageGenerator
