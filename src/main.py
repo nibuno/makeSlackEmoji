@@ -13,7 +13,7 @@ class MakeSlackEmoji:
         self.file_name: str = self.file_stem + self.file_suffix
         self.save_file_path: str = "save/" + self.file_name
         self.background_color: Tuple[int, int, int, int] = (0, 0, 0, 0)
-        self.font_path: str = "rounded-mplus-20150529/rounded-mplus-1c-black.ttf"
+        self.font_path: str = "../fonts/rounded-mplus-20150529/rounded-mplus-1c-black.ttf"
         self.font_color: str = "#000000"
         self.base_size: int = 128
         self.bounding_right_num: int = 2

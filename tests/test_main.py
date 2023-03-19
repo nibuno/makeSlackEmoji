@@ -1,4 +1,4 @@
-from main import MakeSlackEmoji
+from src.main import MakeSlackEmoji
 
 
 class TestMakeSlackEmoji:

@@ -1,6 +1,6 @@
 import pytest
 
-from calc_y_axis import calc_y_axis
+from src.calc_y_axis import calc_y_axis
 
 
 test_datas = [
