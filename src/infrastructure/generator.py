@@ -24,12 +24,13 @@ class StandardGeneratorImpl(ImageGenerator):
         image_draw: ImageDraw = ImageDraw.Draw(im=image)
         count: int = 1
         for text in self.emoji_use_case.get_text().splitlines():
-            image_font: ImageFont = find_best_font_and_box(
+            image_font: ImageFont
+            image_font, _ = find_best_font_and_box(
                 self.emoji_use_case.get_split_size(),
                 text,
                 self.emoji_use_case.get_font(),
                 self.emoji_use_case.get_base_size(),
-            )[0]
+            )
             image_draw.text(
                 xy=(
                     self.emoji_use_case.get_center(),
@@ -53,12 +54,13 @@ class AutoFontSizeChangeGeneratorImpl(ImageGenerator):
         self.emoji_use_case.set_base_size(128 * 2)
         bounding_bottoms: list = []
         for text in self.emoji_use_case.get_text().splitlines():
-            bounding_box = find_best_font_and_box(
+            bounding_box: tuple[int, int, int, int]
+            _, bounding_box = find_best_font_and_box(
                 self.emoji_use_case.get_split_size(),
                 text,
                 self.emoji_use_case.get_font(),
                 self.emoji_use_case.get_base_size(),
-            )[1]
+            )
             bounding_bottoms.append(bounding_box[BoundingBox.BOTTOM.value])
         image: Image = Image.new(
             mode="RGBA",
@@ -67,12 +69,13 @@ class AutoFontSizeChangeGeneratorImpl(ImageGenerator):
         )
         image_draw: ImageDraw = ImageDraw.Draw(im=image)
         for i, text in enumerate(self.emoji_use_case.get_text().splitlines(), start=1):
-            image_font: tuple[int, int, int, int] = find_best_font_and_box(
+            image_font: ImageFont
+            image_font, _ = find_best_font_and_box(
                 self.emoji_use_case.get_split_size(),
                 text,
                 self.emoji_use_case.get_font(),
                 self.emoji_use_case.get_base_size(),
-            )[0]
+            )
             image_draw.text(
                 xy=(self.emoji_use_case.get_center(),
                     calc_y_axis(bounding_bottoms, i)),
