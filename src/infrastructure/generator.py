@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from typing import Optional
-
 from PIL import Image, ImageDraw, ImageFont
 
 from src.entity.bounding_box import BoundingBox
@@ -113,8 +111,8 @@ def calc_y_axis(bounding_bottoms: list[int, ...], count: int) -> int:
 def find_best_font_and_box(
     font_size: int, text: str, font: str, base_size: int
 ) -> tuple[ImageFont, tuple[int, int, int, int]]:
-    image_font: Optional[ImageFont] = None
-    bounding_box: Optional[tuple[int, int, int, int]] = None
+    image_font: ImageFont | None = None
+    bounding_box: tuple[int, int, int, int] | None = None
     while (
         (bounding_box is None)
         or (bounding_box[BoundingBox.RIGHT.value] > base_size)
